@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+header, body, footer {
+    @apply bg-yellow-100 text-gray-900;
+    @apply font-mono text-2xl;
+}
