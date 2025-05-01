@@ -14,13 +14,13 @@ const ImageCarousel = () => {
           className="overflow-hidden"
         >
           <div>
-            <img src="/img/best-summer-colognes.jpg" alt="Banner 1" />
+            <img src="/perfumes-x-pomade-frontend/img/best-summer-colognes.jpg" alt="Banner 1" />
           </div>
           <div>
-            <img src="/img/best-summer-colognes_2.jpg" alt="Banner 2" />
+            <img src="/perfumes-x-pomade-frontend/img/best-summer-colognes_2.jpg" alt="Banner 2" />
           </div>
           <div>
-            <img src="/img/Summer-fragrances.png" alt="Banner 3" />
+            <img src="/perfumes-x-pomade-frontend/img/Summer-fragrances.png" alt="Banner 3" />
           </div>
         </Carousel>
       </div>
