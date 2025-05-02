@@ -1,28 +1,24 @@
-/*import axios from 'axios';
-
-const API_URL = 'https://minzpuiz.click/api/products';
-
-export const getProducts = async () => {
-  const token = localStorage.getItem('token');
-  const response = await axios.get(API_URL, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: 'application/json',
-    },
-  });
-  return response.data;
-};*/
-
-// services/productService.js
 import axios from 'axios';
 
+const token = '3|ZBsinH1QPzvfbM5xnxDzzIKJNKN6FQe4jQm10SAQ22546fe4';
+const headers = {
+  Authorization: `Bearer ${token}`,
+};
+
+// Lấy tất cả sản phẩm
 export const getProducts = async () => {
-  const token = '3|ZBsinH1QPzvfbM5xnxDzzIKJNKN6FQe4jQm10SAQ22546fe4';
-  const response = await axios.get('https://minzpuiz.click/api/products', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await axios.get('https://minzpuiz.click/api/products', { headers });
   return response.data;
 };
 
+// ✅ Thêm hàm getBrands
+export const getBrands = async () => {
+  const response = await axios.get('https://minzpuiz.click/api/brands', { headers });
+  return response.data;
+};
+
+// ✅ Thêm hàm getCategories
+export const getCategories = async () => {
+  const response = await axios.get('https://minzpuiz.click/api/categories', { headers });
+  return response.data;
+};

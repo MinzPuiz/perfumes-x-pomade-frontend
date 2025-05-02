@@ -18,7 +18,7 @@ const ImageCarousel = () => {
           </div>
           <div>
             <img src="/perfumes-x-pomade-frontend/img/best-summer-colognes_2.jpg" alt="Banner 2" />
-          </div>
+          </div>  
           <div>
             <img src="/perfumes-x-pomade-frontend/img/Summer-fragrances.png" alt="Banner 3" />
           </div>
