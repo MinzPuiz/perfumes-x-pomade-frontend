@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import { getProducts } from '../../services/productServices';
+import MalePerfumeProduct from './MalePerfumeProduct';
 
 const MalePerfumeProductsCarousel = () => {
   const [maleProducts, setMaleProducts] = useState([]);
@@ -26,15 +27,11 @@ const MalePerfumeProductsCarousel = () => {
     responsive: [
       {
         breakpoint: 1024,
-        settings: {
-          slidesToShow: Math.min(maleProducts.length, 3),
-        },
+        settings: { slidesToShow: Math.min(maleProducts.length, 3) },
       },
       {
         breakpoint: 768,
-        settings: {
-          slidesToShow: Math.min(maleProducts.length, 2),
-        },
+        settings: { slidesToShow: Math.min(maleProducts.length, 2) },
       },
     ],
   };
@@ -51,19 +48,7 @@ const MalePerfumeProductsCarousel = () => {
         <Slider {...settings}>
           {maleProducts.map((product) => (
             <div key={product.id} className="px-2">
-              <div className="bg-white rounded-lg shadow hover:shadow-md transition duration-300">
-                <img
-                  src={`https://minzpuiz.click/storage/${product.thumbnail}`}
-                  alt={product.name}
-                  className="w-full h-48 object-contain bg-white"
-                />
-                <div className="p-3">
-                  <h3 className="text-sm font-medium truncate text-[#3e2723]">{product.name}</h3>
-                  <p className="text-[#6d4c41] font-bold mt-2">
-                    {Number(product.price).toLocaleString()}đ
-                  </p>
-                </div>
-              </div>
+              <MalePerfumeProduct product={product} />
             </div>
           ))}
         </Slider>

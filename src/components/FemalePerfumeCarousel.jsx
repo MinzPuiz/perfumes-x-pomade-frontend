@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import { getProducts } from '../../services/productServices';
+import FemalePerfumeProduct from './FemalePerfumeProduct'; // 👈 thêm dòng này
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -53,19 +55,7 @@ const FemalePerfumeProductsCarousel = () => {
         <Slider {...settings}>
           {femaleProducts.map((product) => (
             <div key={product.id} className="px-2">
-              <div className="bg-white rounded-lg shadow hover:shadow-md transition duration-300">
-                <img
-                  src={`https://minzpuiz.click/storage/${product.thumbnail}`}
-                  alt={product.name}
-                  className="w-full h-48 object-contain bg-white"
-                />
-                <div className="p-3">
-                  <h3 className="text-sm font-medium truncate text-[#4a4a4a]">{product.name}</h3>
-                  <p className="text-[#e83e8c] font-bold mt-2">
-                    {Number(product.price).toLocaleString()}đ
-                  </p>
-                </div>
-              </div>
+              <FemalePerfumeProduct product={product} /> {/* 👈 đây là chỗ thay đổi */}
             </div>
           ))}
         </Slider>

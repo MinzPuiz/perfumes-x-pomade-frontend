@@ -5,9 +5,9 @@ import Footer from "./components/Footer";
 import ImageCarousel from "./components/Carousel";
 import Products from "./pages/Products";
 import FlashDealCarousel from "./components/FlashDealCarousel";
-import MalePerfumeProducts from "./components/MalePerfumeProducts";
-import FemalePerfumeProducts from "./components/FemalePerfumeProducts";
-import UnisexPerfumeProducts from "./components/UnisexPerfumeProducts";
+import MalePerfumeProductsCarousel from "./components/MalePerfumeCarousel";
+import FemalePerfumeProductsCarousel from "./components/FemalePerfumeCarousel";
+import UnisexPerfumeProductsCarousel from "./components/UnisexPerfumeCarousel";
 import PostList from "./components/PostList";
 import ProductDetail from "./pages/ProductDetail";
 import "slick-carousel/slick/slick.css";
@@ -22,9 +22,9 @@ function App() {
           <>
             <ImageCarousel />
             <FlashDealCarousel />
-            <MalePerfumeProducts />
-            <FemalePerfumeProducts />
-            <UnisexPerfumeProducts />
+            <MalePerfumeProductsCarousel />
+            <FemalePerfumeProductsCarousel />
+            <UnisexPerfumeProductsCarousel />
             <PostList />
           </>
         } />
