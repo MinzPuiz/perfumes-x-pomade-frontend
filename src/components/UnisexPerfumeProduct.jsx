@@ -38,7 +38,7 @@ const UnisexPerfumeProduct = ({ product }) => {
           <p><strong>Danh mục:</strong> {categoryName}</p>
           <p><strong>Giới tính:</strong> {product.gender}</p>
           <p><strong>Loại:</strong> {product.type}</p>
-          <p><strong>Trạng thái:</strong> {product.status === 'sale_off' ? 'Đang giảm giá' : 'Bình thường'}</p>
+          <p><strong>Trạng thái:</strong> {product.status === 'sale_off' ? 'Đang giảm giá' : 'Còn hàng'}</p>
         </div>
         <button
           onClick={toggleModal}
