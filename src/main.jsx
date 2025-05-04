@@ -6,7 +6,7 @@ import App from './App.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter> {/* ✅ bọc App */}
+    <BrowserRouter basename="/perfumes-x-pomade-frontend"> {/* ✅ bọc App */}
       <App />
     </BrowserRouter>
   </StrictMode>

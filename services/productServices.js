@@ -22,3 +22,13 @@ export const getCategories = async () => {
   const response = await axios.get('https://minzpuiz.click/api/categories', { headers });
   return response.data;
 };
+
+// Lấy sản phẩm theo slug
+export const getProductsByCategory = async (slug) => {
+  const response = await axios.get(`https://minzpuiz.click/api/products?category=${slug}`, { headers });
+  return response.data;
+};
+
+
+
+

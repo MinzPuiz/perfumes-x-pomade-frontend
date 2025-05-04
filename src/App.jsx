@@ -10,6 +10,7 @@ import FemalePerfumeProductsCarousel from "./components/FemalePerfumeCarousel";
 import UnisexPerfumeProductsCarousel from "./components/UnisexPerfumeCarousel";
 import PostList from "./components/PostList";
 import ProductDetail from "./pages/ProductDetail";
+import CategoryPage from "./pages/CategoryPage";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -18,7 +19,7 @@ function App() {
     <>
       <Header />
       <Routes>
-        <Route path="/perfumes-x-pomade-frontend" element={
+        <Route path="/" element={
           <>
             <ImageCarousel />
             <FlashDealCarousel />
@@ -29,6 +30,7 @@ function App() {
           </>
         } />
         <Route path="/products/:slug" element={<ProductDetail />} />
+        <Route path="/category/:slug" element={<CategoryPage />} />
       </Routes>
       <Footer />
     </>
