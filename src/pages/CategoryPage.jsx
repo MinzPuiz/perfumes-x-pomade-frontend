@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getProductsByCategory } from '../../services/productServices';
 import "../assets/loader.css";
@@ -43,15 +43,19 @@ const CategoryPage = () => {
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {products.map(product => (
-            <div key={product.id} className="border p-2 rounded hover:shadow-md transform transition-all duration-500 hover:scale-105">
+            <Link
+              to={`/products/${product.slug}`}
+              key={product.id}
+              className="border p-2 rounded hover:shadow-md transform transition-all duration-500 hover:scale-105 block"
+            >
               <img
                 src={`https://minzpuiz.click/storage/${product.thumbnail}`}
                 alt={product.name}
                 className="w-full h-40 object-cover rounded mb-2"
               />
               <h2 className="text-sm font-medium">{product.name}</h2>
-              <p className="text-pink-600 font-semibold">{product.price}₫</p>
-            </div>
+              <p className="text-pink-600 font-semibold">{Number(product.price).toLocaleString()}₫</p>
+            </Link>
           ))}
         </div>
       )}
