@@ -29,6 +29,15 @@ export const getProductsByCategory = async (slug) => {
   return response.data;
 };
 
+export const getNotes = async (slug) => {
+  const response = await axios.get(`https://minzpuiz.click/api/products/${slug}/notes`, { headers });
+  return response.data;
+};
+
+export const getVariants = async (slug) => {
+  const response = await axios.get(`https://minzpuiz.click/api/products/${slug}/variants`, { headers });
+  return response.data;
+};
 
 
 
