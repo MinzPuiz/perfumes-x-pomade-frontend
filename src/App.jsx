@@ -29,6 +29,7 @@ function App() {
             <PostList />
           </>
         } />
+        <Route path="/products" element={<Products />} />
         <Route path="/products/:slug" element={<ProductDetail />} />
         <Route path="/category/:slug" element={<CategoryPage />} />
       </Routes>

@@ -11,7 +11,8 @@ const ProductDetail = () => {
   const [selectedVariantId, setSelectedVariantId] = useState('');
   const [selectedPrice, setSelectedPrice] = useState(null);
   const [variants, setVariants] = useState([]); // Thêm state cho variants
-
+  const [quantity, setQuantity] = useState(1);
+  const [brandSlug, setBrandSlug] = useState('');
 
   const statusColors = {
     available: 'text-green-600',
@@ -50,7 +51,25 @@ const ProductDetail = () => {
     }
   };
   
+  const handleQuantityChange = (e) => {
+    const value = Number(e.target.value);
+    if (isNaN(value)) return;
+    if (value < 1) setQuantity(1);
+    else if (value > product.stock) setQuantity(product.stock);
+    else setQuantity(value);
+  };
   
+  const increaseQty = () => {
+    if (quantity < product.stock) {
+      setQuantity(prev => prev + 1);
+    }
+  };
+  
+  const decreaseQty = () => {
+    if (quantity > 1) {
+      setQuantity(prev => prev - 1);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,6 +90,7 @@ const ProductDetail = () => {
         console.log('Variants:', variantsData.variants);  // Kiểm tra phần variants trong API
 
         setBrandName(brand?.name || '');
+        setBrandSlug(brand?.slug || '');
         setCategoryName(category?.name || '');
         setNotes(notesData);
 
@@ -114,30 +134,50 @@ const ProductDetail = () => {
         <div className="flex flex-col justify-center">
           <h1 className="text-3xl font-semibold mb-2">{product.name}</h1>
           <p className="text-pink-600 text-xl font-bold mb-4">
-            {(selectedPrice ?? product.price).toLocaleString('vi-VN')}₫
+            {Number(Math.floor(selectedPrice ?? product.price)).toLocaleString('vi-VN')}₫
           </p>
 
           <div className="mb-4">
-            <label className="block text-gray-700 mb-1">Chọn dung tích:</label>
-            <select
-              value={selectedVariantId}
-              onChange={(e) => handleVariantChange(e.target.value)}
-              className="border border-gray-300 rounded px-2 py-1"
-            >
-              <option value="">Giá gốc - {Number(product.price).toLocaleString('vi-VN')}₫</option>
-              {Array.isArray(variants) && variants.length > 0 ? (
-                variants.map((variant) => (
-                  <option key={variant.id} value={variant.id}>
-                    {variant.sku} - {Number(variant.price).toLocaleString()}₫ ({variant.stock} sp)
-                  </option>
-                ))
-              ) : (
-                <option disabled>Không có biến thể</option>
-              )}
-            </select>
+            <label className="block text-gray-700 mb-2 font-medium">Chọn dung tích:</label>
+            <div className="flex flex-wrap gap-2">
+              {/* Giá gốc */}
+              <button
+                type="button"
+                onClick={() => handleVariantChange('')}
+                className={`px-4 py-2 border rounded-full text-sm ${
+                  selectedVariantId === '' ? 'bg-pink-600 text-white' : 'bg-gray-100 text-gray-800'
+                } hover:bg-pink-500 hover:text-white transition`}
+              >
+                Giá gốc - {Number(product.price).toLocaleString('vi-VN')}₫
+              </button>
+
+              {/* Biến thể */}
+              {variants.map((variant) => (
+                <button
+                  key={variant.id}
+                  type="button"
+                  onClick={() => handleVariantChange(variant.id)}
+                  className={`px-4 py-2 border rounded-full text-sm ${
+                    selectedVariantId === variant.id.toString()
+                      ? 'bg-pink-600 text-white'
+                      : 'bg-gray-100 text-gray-800'
+                  } hover:bg-pink-500 hover:text-white transition`}
+                >
+                  {variant.sku} - {Number(variant.price).toLocaleString('vi-VN')}₫
+                </button>
+              ))}
+            </div>
           </div>
-          <p className="text-gray-500 mb-4">Thương hiệu: {brandName}</p>
-          <p className="text-gray-500 mb-4">Danh mục: {categoryName}</p>
+          <p className="text-gray-500 mb-4">
+            Thương hiệu:{" "}
+            <a
+              href={`/brands/${brandSlug}`}
+              className="text-pink-600 font-bold hover:underline"
+            >
+              {brandName}
+            </a>
+          </p>
+          {/* <p className="text-gray-500 mb-4">Danh mục: {categoryName}</p> */}
           <p className="text-gray-500 mb-4">
             Tình trạng sản phẩm:{" "}
             <span className={statusColors[product.status] || 'text-gray-500'}>
@@ -195,13 +235,28 @@ const ProductDetail = () => {
           {product.stock > 0 ? (
             <div className="mb-4">
               <label className="block text-gray-700 mb-1">Số lượng:</label>
-              <input
-                type="number"
-                min="1"
-                max={product.stock}
-                defaultValue="1"
-                className="w-20 border border-gray-300 rounded px-2 py-1"
-              />
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={decreaseQty}
+                  className="px-3 py-1 bg-sky-200 rounded hover:bg-gray-300"
+                >
+                  –
+                </button>
+                <input
+                  type="number"
+                  min="1"
+                  max={product.stock}
+                  value={quantity}
+                  onChange={handleQuantityChange}
+                  className="w-20 text-center border border-gray-300 rounded px-2 py-1"
+                />
+                <button
+                  onClick={increaseQty}
+                  className="px-3 py-1 bg-sky-200 rounded hover:bg-gray-300"
+                >
+                  +
+                </button>
+              </div>
               <p className="text-sm text-gray-500 mt-1">Còn lại: {product.stock} sản phẩm</p>
             </div>
           ) : (
