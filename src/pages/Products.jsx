@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getProducts } from '../../services/productServices';
+import { getProducts, getBrands, getCategories, getNotes, getVariants } from '../../services/productServices';
 
 function Products({ title }) {
   const [products, setProducts] = useState([]);
@@ -9,14 +9,13 @@ function Products({ title }) {
       .then(data => {
         let filteredData = data;
 
-        if (title.includes("nam")) {
+        if (title?.includes("nam")) {
           filteredData = data.filter(p => p.gender === "male");
-        } else if (title.includes("nữ")) {
+        } else if (title?.includes("nữ")) {
           filteredData = data.filter(p => p.gender === "female");
-        } else if (title.includes("unisex")){
+        } else if (title?.includes("unisex")) {
           filteredData = data.filter(p => p.gender === "unisex");
-        }
-        else if (title.includes("giảm giá")){
+        } else if (title?.includes("giảm giá")) {
           filteredData = data.filter(p => p.status === "sale_off");
         }
         setProducts(filteredData);

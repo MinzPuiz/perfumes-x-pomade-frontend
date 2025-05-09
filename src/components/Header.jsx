@@ -12,12 +12,22 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
+  const [showAuthPopup, setShowAuthPopup] = useState(false);
+  const [user, setUser] = useState(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     getCategories()
       .then(setCategories)
       .catch(err => console.error('Lỗi khi lấy categories:', err));
+  }, []);
+
+  useEffect(() => {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
   }, []);
 
   useEffect(() => {
@@ -56,6 +66,13 @@ const Header = () => {
   // Function to toggle mobile search
   const toggleMobileSearch = () => {
     setShowMobileSearch(!showMobileSearch);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setUser(null); // Xóa thông tin user trong state
+    window.location.reload(); // Reload lại trang để cập nhật lại header
   };
 
   return (
@@ -122,9 +139,57 @@ const Header = () => {
         
         {/* Icons */}
         <div className="flex items-center space-x-4 flex-shrink-0">
-          <button className="text-gray-100 hover:text-pink-300">
-            <FiUser size={20} />
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setShowAuthPopup(prev => !prev)}
+              className="text-gray-100 hover:text-pink-300"
+            >
+              <span className="text-sm text-white font-medium cursor-pointer">
+                {user ? user.name.split(' ')[0] : <FiUser size={20} />}
+              </span>
+            </button>
+
+            {/* Popup login/register */}
+            {showAuthPopup && (
+              <div className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg z-50 py-2">
+                {!user ? (
+                  <>
+                    <button
+                      onClick={() => {
+                        navigate('/login');
+                        setShowAuthPopup(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-100"
+                    >
+                      Đăng nhập
+                    </button>
+                    <button
+                      onClick={() => {
+                        navigate('/register');
+                        setShowAuthPopup(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-100"
+                    >
+                      Đăng ký
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem('token');
+                      localStorage.removeItem('user');
+                      setUser(null);
+                      setShowAuthPopup(false);
+                      navigate('/'); // hoặc navigate(0) để reload
+                    }}
+                    className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-100"
+                  >
+                    Đăng xuất
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
           <button className="text-gray-100 hover:text-pink-300">
             <FiShoppingCart size={20} />
           </button>
