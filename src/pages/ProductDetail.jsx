@@ -35,7 +35,8 @@ const ProductDetail = () => {
   };
 
   const handleVariantChange = (variantId) => {
-    setSelectedVariantId(variantId);
+    //setSelectedVariantId(variantId);
+    setSelectedVariantId(variantId.toString());
     
     if (variantId === '') {
       setSelectedPrice(null); // trở lại giá gốc
@@ -86,7 +87,8 @@ const ProductDetail = () => {
         const category = categories.find(c => c.id === found.category_id);
         const notesData = await getNotes(slug);
         const variantsData = await getVariants(slug);
-
+        setSelectedVariantId(null);
+        setSelectedPrice(null);
         console.log('Variants:', variantsData.variants);  // Kiểm tra phần variants trong API
 
         setBrandName(brand?.name || '');
@@ -163,7 +165,7 @@ const ProductDetail = () => {
                       : 'bg-gray-100 text-gray-800'
                   } hover:bg-pink-500 hover:text-white transition`}
                 >
-                  {variant.sku} - {Number(variant.price).toLocaleString('vi-VN')}₫
+                  {variant.size?.name} - {Number(variant.price).toLocaleString('vi-VN')}₫
                 </button>
               ))}
             </div>
