@@ -14,7 +14,8 @@ const Header = () => {
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [showAuthPopup, setShowAuthPopup] = useState(false);
   const [user, setUser] = useState(null);
-
+  const [cartCount, setCartCount] = useState(0);
+  
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,6 +43,38 @@ const Header = () => {
       setSearchResults([]);
     }
   }, [searchQuery]);
+
+  useEffect(() => {
+    const updateCartCount = () => {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      setCartCount(cart.reduce((total, item) => total + item.quantity, 0));
+    };
+
+    window.addEventListener('cartUpdated', updateCartCount);
+    
+    updateCartCount();
+
+    return () => {
+      window.removeEventListener('cartUpdated', updateCartCount);
+    };
+  }, []);
+
+  // Thêm hàm xóa giỏ hàng
+  const clearCart = () => {
+    if (window.confirm('Bạn có chắc muốn xóa tất cả sản phẩm trong giỏ hàng?')) {
+      localStorage.removeItem('cart'); // Xóa giỏ hàng
+      window.dispatchEvent(new Event('cartUpdated')); // Phát sự kiện để cập nhật badge giỏ hàng
+    }
+  };
+
+  useEffect(() => {
+    // Lấy thông tin giỏ hàng từ localStorage
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+      const parsedCart = JSON.parse(savedCart);
+      setCartCount(parsedCart.length);
+    }
+  }, []);
 
   // Khi nhấn vào danh mục ➜ điều hướng + ẩn dropdown
   const handleCategoryClick = (slug) => {
@@ -190,8 +223,16 @@ const Header = () => {
               </div>
             )}
           </div>
-          <button className="text-gray-100 hover:text-pink-300">
+          <button
+            onClick={() => navigate('/Checkout')}
+            className="text-gray-100 hover:text-pink-300 relative"
+          >
             <FiShoppingCart size={20} />
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-pink-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
           </button>
           <button
             className="md:hidden text-white"

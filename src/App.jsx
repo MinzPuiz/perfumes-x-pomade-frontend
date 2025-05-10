@@ -16,17 +16,19 @@ import CategoryPage from "./pages/CategoryPage";
 import PrivateRoute from "./components/PrivateRoute";
 import Checkout from "./pages/Checkout";
 import { useEffect } from "react";
+import { CartProvider } from "./components/CartContext";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 function App() {
-  useEffect(() => {
+  /*useEffect(() => {
     if (window.location.pathname === '/perfumes-x-pomade-frontend') {
       window.location.replace('/perfumes-x-pomade-frontend/');
     }
-  }, []);
+  }, []);*/
   return (
     <>
+      <CartProvider>
       <Header />
       <Routes>
         <Route path="/" element={
@@ -56,6 +58,7 @@ function App() {
         />
       </Routes>
       <Footer />
+      </CartProvider>
     </>
   );
 }
